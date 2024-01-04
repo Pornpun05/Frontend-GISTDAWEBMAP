@@ -13,13 +13,6 @@ const routes = [
   },
 
   {
-    path: "/mappage",
-    name: "mappage",
-    component: () => import("../views/MapPages.vue"),
-    meta: { useCustomAppBar: true }
-  },
-
-  {
     path: "/searchpage",
     name: "searchpage",
     component: () => import("../views/SearchPage.vue"),
@@ -27,12 +20,6 @@ const routes = [
     
   },
 
-  {
-    path: "/homepage",
-    name: "homepage",
-    component: () => import("../views/HomePage.vue"),
-    meta: { useCustomAppBar: true }
-  },
   
 ]
 

@@ -2,32 +2,26 @@
   <v-app>
     <v-main>
       <v-container
-        class="d-flex justify-content-center align-center mt-10 flex-wrap"
+        fluid
+        class="d-flex justify-content-center align-center mt-4"
       >
         <v-row justify="center">
-          <v-col cols="20" sm="10" md="8">
-            <v-card class="custom-card">
+          <v-col cols="12" sm="8" md="6">
+            <v-card-title class="namemap">แผนที่แนะนำสถานที่อ่านหนังสือภายในมหาวิทยาลัยสงขลานครินทร์</v-card-title>
+            <v-card style="width: max-content">
               <v-img
-                src="https://clib.psu.ac.th/memory/wp-content/uploads/2019/08/62.jpg"
-                height="250px"
+                src="https://campus.campus-star.com/app/uploads/2016/10/mhu.jpg"
+                class="mx-auto rounded-lg"
+                style="max-width: 100%; height: auto"
               ></v-img>
-              <br />
-              <v-card-text>
-                <div
-                  style="font-size: 20px; text-align: center; color: #000000"
-                >
-                  แผนที่แนะนำสถานที่อ่านหนังสือภายในมหาวิทยาลัยสงขลานครินทร์
-                </div>
-              </v-card-text>
-              <br />
-              <div class="text-center">
-                <v-btn class="button" color="#03178C" @click="gotohome">
-                  <v-icon style="color: #ffffff">mdi-map-marker</v-icon>
-                  <span class="text" style="color: #ffffff"
-                    >คลิกเพื่อดูแผนที่</span
+
+              <v-card-actions class="d-flex justify-center mt-2">
+                <v-btn class="button" color="#03178c" @click="gotohome">
+                  <v-icon style="color: aliceblue">mdi-map-marker</v-icon>
+                  <span class="text" style="color: aliceblue; font-size: medium">คลิกเพื่อดูแผนที่</span
                   >
                 </v-btn>
-              </div>
+              </v-card-actions>
             </v-card>
           </v-col>
         </v-row>
@@ -54,14 +48,36 @@ export default {
 <style>
 .custom-card {
   width: 100%;
-  height: 450px;
-  padding: 16px;
+  padding: 100px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
-.button-login {
-  background-color: #1976d2;
-  color: white;
+
+.custom-card:hover {
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+  transform: scale(1.02);
 }
-.text-login {
-  margin-left: 10px;
+
+.custom-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.7));
+}
+
+.namemap {
+  font-size: 20.5px;
+  text-align: center;
+  color: #03178c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  color: aliceblue;
 }
 </style>

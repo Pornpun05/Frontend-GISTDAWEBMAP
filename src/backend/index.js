@@ -30,13 +30,29 @@ app.get("/", async (req, res) => {
 
 app.get("/getlist", async (req, res) => {
   try {
-    const result = await client.query("SELECT * FROM public.webmappsu ORDER BY id ASC");
+    const result = await client.query(
+      "SELECT id, faculty, location, latitude, longitude , encode (image, 'base64') AS image ,details FROM public.webmappsu ORDER BY id ASC " );
+    if(result)
+      // console.log(result.rows);
+      res.json({ data: result.rows });
+  } catch (err) {
+    console.error("Error in client query:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.get("/getimage", async (req, res) => {
+  try {
+    const location = req.params.location
+    const result = await client.query(
+      `SELECT encode (image, 'base64') AS image FROM public.webmappsu WHERE location=${location}` );
     res.json({ data: result.rows });
   } catch (err) {
     console.error("Error in client query:", err);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
