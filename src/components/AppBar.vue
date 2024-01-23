@@ -1,7 +1,7 @@
 <template>
     <div>
       <v-app-bar class="custom-app-bar" color="#03178C" :height="70">
-        <v-toolbar-title style="font-size: 30px; text-align: center; color: #ffffff;">MOR AOR GO MORE</v-toolbar-title>
+        <v-toolbar-title style="font-size: 23px; text-align: center; color: #ffffff;">MOR AOR GO MORE</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-app-bar>
     </div>

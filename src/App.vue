@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <component :is="currentAppBar" />
-    <v-main class="vmain">
+    <v-main style="padding: 0;" class="vmain">
       <router-view />
     </v-main>
   </v-app>

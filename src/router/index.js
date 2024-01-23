@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -17,6 +18,14 @@ const routes = [
     name: "searchpage",
     component: () => import("../views/SearchPage.vue"),
     meta: { useCustomAppBar: true }
+    
+  },
+  {
+    path: "/comment",
+    name: "comment",
+    component: () => import("../views/CommentPage.vue"),
+    meta: { useCustomAppBar: false }
+    
     
   },
 

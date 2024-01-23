@@ -2,18 +2,58 @@
   <div
     style="display: flex; flex-direction: column; height: 100%; padding: 20px"
   >
-    <!-- <div class="item-list">
-      <div style="display: flex; flex-direction: column; transform: scale(0.9)"> -->
-    <!-- <v-btn
-          v-for="item in itemList"
-          :key="item.id"
-          @click="gotoPin(item.longitude, item.latitude)"
-        >
-          {{ item.faculty }} - {{ item.location }}
-        </v-btn> -->
-    <!-- </div>
-    </div> -->
-    <div id="map"></div>
+    <div id="map">
+      <v-navigation-drawer
+        id="review-bar"
+        v-model="drawer"
+        app
+        class="drawer"
+        style="
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          display: flex;
+          width: 360px;
+          height: 500px;
+          background-color: rgb(255, 255, 255);
+          z-index: 10;
+        "
+        width="350px"
+      >
+        <div class="d-flex justify-content mt-3 flex-nowrap flex-column">
+          <v-card style="width: max-content" class="text-center d-flex">
+            <v-img
+              src="https://lh3.googleusercontent.com/pw/AM-JKLX_-E9QnJ7YmGL9RVb8RRtfrvmOTIiFLcgoa1n9Nr16qHPO_heBCbDooFQvpyK5ToU-3woEbt4AzyhnnHqEgnuPdbTjNJoYPEf7aKjb59OPamdOOKYTfn-bufschoQHVXcXJ5YZ5p-oehajggoNSxNK=w1209-h907-no?authuser=0"
+              height="200px"
+              width="340px"
+              class="mx-auto my-auto"
+            >
+            </v-img>
+          </v-card>
+
+          <v-card-text class="mt-3" style="margin-left: 0.5cm">
+            <div style="font-size: 18px; color: #000000">ตึกฟัก</div>
+          </v-card-text>
+        </div>
+
+
+        <div class="mt-10" style="margin-left: 1cm;">
+              <v-btn
+                depressed
+                class="mr-5" >
+                ภาพรวม
+              </v-btn>
+              <v-btn
+                depressed
+                class="mr-5" 
+                
+                >
+                รีวิว
+              </v-btn>  
+          </div>
+        <div class="underline"></div>
+      </v-navigation-drawer>
+    </div>
   </div>
 </template>
 
@@ -24,6 +64,7 @@ import AppMapVue from "@/components/AppMap.vue";
 export default {
   data() {
     return {
+      drawer: false,
       map: null,
       marker: null,
       itemList: null,
@@ -86,6 +127,9 @@ export default {
         this.map = new sphere.Map({
           placeholder: document.getElementById("map"),
         });
+        this.map.Event.bind(sphere.EventName.OverlayClick, () => {
+          this.drawer = !this.drawer;
+        });
       } catch (error) {
         console.error("Error initializing the map:", error);
       }
@@ -109,7 +153,6 @@ export default {
     },
 
     navigateToComment() {
-      // Use this.$router.push to navigate to the "/comment" route
       this.$router.push("/comment");
     },
 
@@ -128,33 +171,32 @@ export default {
               detail:
                 `<div style="width: 200px; max-height: 300px; overflow: auto; margin-top: 10px; padding: 5px; display: flex; flex-direction: column;">` +
                 `<div style="display: flex; justify-content: center; align-items: center; overflow: hidden; width: 190px; height: 120px;">
-                 <img style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" src="${item?.image}" alt="Gistda images"></div>` +
+                   <img style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" src="${item?.image}" alt="Gistda images"></div>` +
                 `<div style="
-                            display: grid;
-                            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-                            gap: 5px;
-                            font-size: 14px; 
-                            line-height: 1.5; 
-                            color: #333; 
-                            border-radius: 6px;
-                            margin-top: 10px;
-                            text-align: center; 
-                            font-family: 'YourChosenFont', sans-serif; 
-                            background-color: #f0f0f0; 
-                            padding: 8px; ">${item?.details}</div>
-                            `,
+                              display: grid;
+                              grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                              gap: 5px;
+                              font-size: 14px; 
+                              line-height: 1.5; 
+                              color: #333; 
+                              border-radius: 6px;
+                              margin-top: 10px;
+                              text-align: center; 
+                              font-family: 'YourChosenFont', sans-serif; 
+                              background-color: #f0f0f0; 
+                              padding: 8px; ">${item?.details}</div>
+                              `,
 
               style: `
-              .sphere-popup-content {
-                font-size: 18px;
-                text-align: center;
-                
-              }
-              .sphere-popup-header {
-                font-size: 20px;
-                text-align: center;
-                margin: 0;
-              }`,
+                .sphere-popup-content {
+                  font-size: 18px;
+                  text-align: center;
+                }
+                .sphere-popup-header {
+                  font-size: 20px;
+                  text-align: center;
+                  margin: 0;
+                }`,
             }
           );
 
@@ -182,32 +224,32 @@ export default {
           detail:
             `<div style="width: 200px; max-height: 300px; overflow: auto; margin-top: 10px; padding: 5px; display: flex; flex-direction: column;">` +
             `<div style="display: flex; justify-content: center; align-items: center; overflow: hidden; width: 190px; height: 120px;">
-            <img style="width: 150px; height: 100%; object-fit: cover; border-radius: 8px;" src="${image}" alt="Gistda images"></div>` +
+              <img style="width: 150px; height: 100%; object-fit: cover; border-radius: 8px;" src="${image}" alt="Gistda images"></div>` +
             `<div style="
-                            display: grid;
-                            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-                            gap: 5px;
-                            font-size: 14px; 
-                            line-height: 1.5; 
-                            color: #333; 
-                            border-radius: 6px;
-                            margin-top: 10px;
-                            text-align: center; 
-                            font-family: 'YourChosenFont', sans-serif; 
-                            background-color: #f0f0f0; 
-                            padding: 8px;">${details}</div>`,
+                              display: grid;
+                              grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                              gap: 5px;
+                              font-size: 14px; 
+                              line-height: 1.5; 
+                              color: #333; 
+                              border-radius: 6px;
+                              margin-top: 10px;
+                              text-align: center; 
+                              font-family: 'YourChosenFont', sans-serif; 
+                              background-color: #f0f0f0; 
+                              padding: 8px;">${details}</div> 
+                              `,
 
           style: `
-                  .sphere-popup-content {
-                    font-size: 18px;
-                    text-align: center;
-                    
-                  }
-                  .sphere-popup-header {
-                    font-size: 20px;
-                    text-align: center;
-                    margin: 0;
-                  }`,
+                    .sphere-popup-content {
+                      font-size: 18px;
+                      text-align: center;
+                    }
+                    .sphere-popup-header {
+                      font-size: 20px;
+                      text-align: center;
+                      margin: 0;
+                    }`,
         }
       );
 
@@ -227,11 +269,24 @@ export default {
         console.error("Error fetching list:", error);
       }
     },
+
+    
   },
 };
 </script>
 
 <style scoped>
+.underline {
+  display: block;
+  width: 95%;
+  height: 1px;
+  background-color: #d1d1d1;
+}
+
+* {
+  padding: 0;
+}
+
 #map {
   justify-items: center;
   display: flex;

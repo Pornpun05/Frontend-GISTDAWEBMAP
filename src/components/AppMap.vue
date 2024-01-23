@@ -7,7 +7,7 @@
         style="color: #ffffff"
       ></v-app-bar-nav-icon>
       <v-toolbar-title
-        style="font-size: 30px; text-align: center; color: #ffffff"
+        style="font-size: 23px; text-align: center; color: #ffffff"
       >
         MOR AOR GO MORE</v-toolbar-title
       >
@@ -44,22 +44,13 @@
                       item.details
                     )
                   "
-                  class="custom-button"
-                >
-                
-                    <!-- <img
-                  style="width: 100%; height: auto"
-                      :src="item.image"
-                      alt="Gistda images"
-                  /> -->
+                  class="custom-button">
 
                     {{ item.location }}
                 
                 </v-btn>
-              
+
               </v-col>
-
-
               <span class="underline"></span>
             </v-row>
 
@@ -140,6 +131,7 @@ export default {
          
       }
     },
+
   },
 
   created() {
@@ -178,10 +170,12 @@ export default {
   text-overflow: ellipsis !important;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center; 
+  justify-content: center; 
   text-align: center;
   text-wrap: wrap !important;
   transition: background-color 0.3s;
+  font-size: 16px; 
 }
 
 .image-button {
@@ -192,6 +186,7 @@ export default {
   text-overflow: ellipsis !important;
 }
 </style>
+
 
 
 
