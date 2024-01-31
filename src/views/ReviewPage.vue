@@ -1,7 +1,7 @@
 <template>
-  <v-dialog v-model="dialog" persistent width="800px">
+  <v-dialog v-model="dialog" persistent width="850px">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn color="primary" dark v-bind="attrs" v-on="on"> Open Dialog </v-btn>
+      <v-btn color="primary" dark v-bind="attrs" v-on="on"> รีวิว </v-btn>
     </template>
 
     <v-card>

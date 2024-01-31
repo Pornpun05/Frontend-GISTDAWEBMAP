@@ -5,26 +5,24 @@
       flex-direction: column;
       height: 100%;
       width: 100%;
-      padding: 20px;
+      padding: 8px;
     "
   >
     <div id="map">
       <div style="display: grid; grid-template-rows: auto auto auto 30px">
         <div>
-          <v-card style="width: max-content">
+          <v-col style="width: max-content">
             <v-img
-              src="Image(card.image)"
+              src="https://campus.campus-star.com/app/uploads/2016/10/mhu.jpg"
               class="mx-auto rounded-lg"
               style="width: 320px; height: 200px"
             ></v-img>
-            <v-card-title class="nametitle">
-              มหาวิทยาลัยสงขลานครินทร์
-            </v-card-title>
-          </v-card>
+            <v-card class="nametitle"> มหาวิทยาลัยสงขลานครินทร์ </v-card>
+          </v-col>
         </div>
 
         <div>สรุปความคิดเห็น</div>
-        <div style="margin-left: 1.5cm">
+        <div style="margin-left: 0cm">
           <v-btn
             elevation="2"
             text
@@ -34,14 +32,14 @@
             ภาพรวม
           </v-btn>
 
-          <v-dialog v-model="dialog" persistent width="850px">
+          <v-dialog v-model="dialog" persistent width="800px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 v-bind="attrs"
                 v-on="on"
                 elevation="2"
                 text
-                class="ml-5 custom-button underline-button"
+                class="ml-8 custom-button underline-button"
                 style="font-size: 16px"
               >
                 <v-icon size="15px">mdi-pencil</v-icon>
@@ -64,15 +62,20 @@
                     คะแนนความพึงพอใจ
                   </div>
 
-                  <v-col>
-                    <v-rating
-                      v-model="userRating"
-                      background-color="#e0e0e0"
-                      color="#ffcc33"
-                      class="custom-rating"
+                  <div
+                    style="font-size: 18px; color: #b6b6b6;"
+                    class="star"
+                  >
+                    <v-icon
+                      style="font-size: 35px;" 
+                      v-for="index in 5"
+                      :key="index"
+                      :color="index <= userRating ? 'yellow' : 'grey'"
+                      @click="updateRating(index)"
                     >
-                    </v-rating>
-                  </v-col>
+                      mdi-star
+                    </v-icon>
+                  </div>
 
                   <v-row>
                     <v-col md="10" class="mx-auto d-flex mt-2">
@@ -80,7 +83,7 @@
                         outlined
                         name="input-7-4"
                         label="เล่าประสบการณ์ที่ได้จากสถานที่นี้โดยละเอียด"
-                        value=""
+                        v-model="detail"
                         height="100%"
                         width="100%"
                         style="margin-top: 0.5cm"
@@ -115,7 +118,7 @@
                     class="ml-3 custom-button"
                     color="green"
                     style="color: #ffffff"
-                    @click="updateData()"
+                    @click="updateData"
                   >
                     โพสต์
                   </v-btn>
@@ -132,7 +135,7 @@
           {{ localTemplate }}
         </div>
         <div>
-          <v-btn @click="localTemplate"> กลับเพื่อเลือกสถานที่ </v-btn>
+          <v-btn @click="switchDrawer">กลับเพื่อเลือกสถานที่ </v-btn>
         </div>
       </div>
     </div>
@@ -158,6 +161,7 @@ export default {
       userRating: 0,
       imageUrl: null,
       dialog: false,
+      localTemplate: "",
     };
   },
   components: {
@@ -168,60 +172,47 @@ export default {
   },
 
   methods: {
-    data() {
-      return {
-        localTemplate: this.currentTemplate,
-      };
-    },
-    watch: {
-      currentTemplate(newVal) {
-        this.localTemplate = newVal;
-      },
+    switchDrawer() {
+      this.$emit(
+        "update:currentTemplate",
+        this.currentTemplate === "otherTemplate"
+          ? "drawerTemplate"
+          : "otherTemplate"
+      );
     },
 
-    async mounted() {
-      try {
-        const response = await axios.get("http://localhost:5000/getlist");
-        this.itemList = response.data.data;
-        for (let i = 0; i < this.itemList.length; i++) {
-          this.itemList[i].image =
-            "data:image/jpeg;base64," + this.itemList[i].image;
-        }
-        console.log("itemList", this.itemList);
-      } catch (error) {
-        console.error("Error fetching list:", error);
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.imageUrl = reader.result;
+        };
+        reader.readAsDataURL(file);
       }
     },
 
-    methods: {
-      switchDrawer() {
-        this.$emit(
-          "update:currentTemplate",
-          this.currentTemplate === "otherTemplate"
-            ? "drawerTemplate"
-            : "otherTemplate"
-        );
-      },
-
-      handleFileUpload(event) {
-        const file = event.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = () => {
-            this.imageUrl = reader.result;
-          };
-          reader.readAsDataURL(file);
-        }
-      },
-
-      Image(image) {
-      return `data:image/jpeg;base64,${image}`;
+    updateRating(rating) {
+      this.userRating = rating;
     },
 
-      gotoBack() {
-        this.$router.go(-1);
-      },
+    gotoBack() {
+      this.$router.go(-1);
     },
+  },
+
+  async mounted() {
+    try {
+      const response = await axios.get("http://localhost:5000/getlist");
+      this.itemList = response.data.data;
+      for (let i = 0; i < this.itemList.length; i++) {
+        this.itemList[i].image =
+          "data:image/jpeg;base64," + this.itemList[i].image;
+      }
+      console.log("itemList", this.itemList);
+    } catch (error) {
+      console.error("Error fetching list:", error);
+    }
   },
 };
 </script>
@@ -234,10 +225,6 @@ export default {
   background-color: #d1d1d1;
 }
 
-* {
-  padding: 0;
-}
-
 #map {
   justify-items: center;
   display: flex;
@@ -245,12 +232,6 @@ export default {
   width: 100%;
   height: 100%;
   margin: 0;
-}
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: red !important;
 }
 
 .nametitle {
@@ -261,7 +242,7 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-top: 2px;
+  margin-top: 5px;
 }
 
 .custom-rating .v-icon {
@@ -273,7 +254,6 @@ export default {
   margin: 0 auto;
   border: 2px solid #999;
   padding: 10px;
-  box-sizing: border-box;
   border-radius: 4px;
 }
 
@@ -302,5 +282,9 @@ export default {
   background-color: blue;
   bottom: 0;
   left: 0;
+}
+.star{
+  text-align: center;
+ 
 }
 </style>
