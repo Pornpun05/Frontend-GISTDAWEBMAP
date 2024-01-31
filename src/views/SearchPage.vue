@@ -109,7 +109,6 @@ export default {
     },
 
     navigateToComment() {
-      // Use this.$router.push to navigate to the "/comment" route
       this.$router.push("/comment");
     },
 
@@ -235,7 +234,7 @@ export default {
 #map {
   justify-items: center;
   display: flex;
-  padding: 20px 20px 20px;
+  padding: 200px 20px 20px 20px !important;
   width: 100%;
   height: 100%;
   margin: 0;

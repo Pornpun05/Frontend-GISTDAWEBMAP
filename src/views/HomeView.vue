@@ -3,8 +3,7 @@
       <v-main>
         <v-container
           fluid
-          class="d-flex justify-content-center align-center mt-4"
-        >
+          class="d-flex justify-content-center align-center mt-2">
           <v-row justify="center">
             <v-col cols="12" sm="8" md="6">
               <v-card-title class="namemap">แผนที่แนะนำสถานที่อ่านหนังสือภายในมหาวิทยาลัยสงขลานครินทร์</v-card-title>
@@ -18,8 +17,7 @@
                 <v-card-actions class="d-flex justify-center mt-2">
                   <v-btn class="button" color="#03178c" @click="gotohome">
                     <v-icon style="color: aliceblue">mdi-map-marker</v-icon>
-                    <span class="text" style="color: aliceblue; font-size: medium">คลิกเพื่อดูแผนที่</span
-                    >
+                    <span class="text" style="color: aliceblue; font-size: medium">คลิกเพื่อดูแผนที่</span>
                   </v-btn>
                 </v-card-actions>
               </v-card>

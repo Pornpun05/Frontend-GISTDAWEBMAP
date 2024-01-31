@@ -10,26 +10,26 @@ const routes = [
     path: '/',
     name: 'HomeView',
     component: HomeView,
-    meta: { useCustomAppBar: false }
+    meta: { useCustomAppBar: false}
   },
 
   {
     path: "/searchpage",
     name: "searchpage",
     component: () => import("../views/SearchPage.vue"),
-    meta: { useCustomAppBar: true }
+    meta: { useCustomAppBar: true}
     
   },
+
+
   {
-    path: "/comment",
-    name: "comment",
-    component: () => import("../views/CommentPage.vue"),
+    path: "/review",
+    name: "review",
+    component: () => import("../views/ReviewPage.vue"),
     meta: { useCustomAppBar: false }
     
     
   },
-
-  
 ]
 
 const router = new VueRouter({

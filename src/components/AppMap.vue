@@ -12,69 +12,79 @@
         MOR AOR GO MORE</v-toolbar-title
       >
     </v-app-bar>
+    <template>
+      <v-navigation-drawer v-model="drawer" app class="drawer" width="400px">
+        <template v-if="currentTemplate === 'drawerTemplate'">
+          <v-row justify="center" class="mx-auto mt-5">
+            <v-col>
+              <v-btn class="ma-2" outlined color="indigo" @click="switchDrawer"
+                >กด</v-btn
+              >
+              {{ currentTemplate }}
 
-    <v-navigation-drawer v-model="drawer" app class="drawer" width="350px">
-      <v-row justify="center" class="mx-auto mt-5">
-        <v-col>
-          <v-col cols="12" sm="12">
-            <v-select
-              :items="items"
-              label="โปรดเลือกสถานที่อ่านหนังสือ"
-              dense
-              solo
-              v-model="selectedFaculty"
-              @change="updateItemList"
-            ></v-select>
-          </v-col>
-
-          <v-col>
-            <v-row justify="center" class="button">
-              <v-col style="display: flex; flex-direction: column">
-                
-                <v-btn
-      
-                  v-for="item in filteredItemList"
-                  :key="item.id"
-                  @click="
-                    gotoSeletePin(
-                      item.longitude,
-                      item.latitude,
-                      item.location,
-                      item.image,
-                      item.details
-                    )
-                  "
-                  class="custom-button">
-
-                    {{ item.location }}
-                
-                </v-btn>
-
+              <v-col cols="12" sm="12">
+                <v-select
+                  :items="items"
+                  label="โปรดเลือกสถานที่อ่านหนังสือ"
+                  dense
+                  solo
+                  v-model="selectedFaculty"
+                  @change="updateItemList"
+                ></v-select>
               </v-col>
-              <span class="underline"></span>
-            </v-row>
 
-            <div
-              style="
-                display: flex;
-                flex-direction: column;
-                transform: scale(0.9);
-              "
-            ></div>
-          </v-col>
-        </v-col>
-      </v-row>
-    </v-navigation-drawer>
-    
+              <v-col>
+                <v-row justify="center" class="button">
+                  <v-col style="display: flex; flex-direction: column">
+                    <v-btn
+                      v-for="item in filteredItemList"
+                      :key="item.id"
+                      @click="
+                        gotoSeletePin(
+                          item.longitude,
+                          item.latitude,
+                          item.location,
+                          item.image,
+                          item.details
+                        )
+                      "
+                      class="custom-button"
+                    >
+                      {{ item.location }}
+                    </v-btn>
+                  </v-col>
+                  <span class="underline"></span>
+                </v-row>
+
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    transform: scale(0.9);
+                  "
+                ></div>
+              </v-col>
+            </v-col>
+          </v-row>
+        </template>
+
+        <template v-else 
+          ><CommentPage :currentTemplate="currentTemplate"
+        /></template>
+      </v-navigation-drawer>
+    </template>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import CommentPage from "./CommentPage.vue";
+
 export default {
   data() {
     return {
       drawer: false,
+      currentTemplate: "drawerTemplate",
       map: null,
       marker: null,
       itemList: null,
@@ -84,10 +94,20 @@ export default {
       filteredItemList: [],
     };
   },
+  components: {
+    CommentPage,
+  },
   methods: {
     toggleDrawer() {
       this.drawer = !this.drawer;
     },
+    switchDrawer() {
+      this.currentTemplate =
+        this.currentTemplate === "drawerTemplate"
+          ? "otherTemplate"
+          : "drawerTemplate";
+    },
+
 
     async getListPoint() {
       try {
@@ -117,7 +137,7 @@ export default {
       }
     },
 
-    gotoSeletePin(lon, lat, location, image,details) {
+    gotoSeletePin(lon, lat, location, image, details) {
       const encodeImg = encodeURIComponent(image);
       const currentRoute = this.$route.fullPath;
       const destinationRoute = `/searchpage?lon=${lon}&lat=${lat}&location=${location}&details=${details}`;
@@ -128,10 +148,8 @@ export default {
             path: `/searchpage?lon=${lon}&lat=${lat}&location=${location}&details=${details}&image=${encodeImg}`,
           })
           .catch(() => {});
-         
       }
     },
-
   },
 
   created() {
@@ -163,19 +181,19 @@ export default {
 
 .custom-button {
   margin-bottom: 20px;
-  width: 300px;
+  width: 330px !important;
   height: 50px !important;
   white-space: nowrap;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   display: flex;
   flex-direction: column;
-  align-items: center; 
-  justify-content: center; 
+  align-items: center;
+  justify-content: center;
   text-align: center;
   text-wrap: wrap !important;
   transition: background-color 0.3s;
-  font-size: 16px; 
+  font-size: 16px;
 }
 
 .image-button {
@@ -186,7 +204,3 @@ export default {
   text-overflow: ellipsis !important;
 }
 </style>
-
-
-
-
