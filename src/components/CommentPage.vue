@@ -32,7 +32,12 @@
             ภาพรวม
           </v-btn>
 
-          <v-dialog v-model="dialog" persistent width="800px">
+          <v-dialog
+            v-model="dialog"
+            persistent
+            width="800px"
+            ref="reviewDialog"
+          >
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 v-bind="attrs"
@@ -62,12 +67,9 @@
                     คะแนนความพึงพอใจ
                   </div>
 
-                  <div
-                    style="font-size: 18px; color: #b6b6b6;"
-                    class="star"
-                  >
+                  <div style="font-size: 18px; color: #b6b6b6" class="star">
                     <v-icon
-                      style="font-size: 35px;" 
+                      style="font-size: 35px"
                       v-for="index in 5"
                       :key="index"
                       :color="index <= userRating ? 'yellow' : 'grey'"
@@ -135,7 +137,7 @@
           {{ localTemplate }}
         </div>
         <div>
-          <v-btn @click="switchDrawer">กลับเพื่อเลือกสถานที่ </v-btn>
+          <v-btn @click="goBack">กลับเพื่อเลือกสถานที่ </v-btn>
         </div>
       </div>
     </div>
@@ -172,6 +174,9 @@ export default {
   },
 
   methods: {
+    goBack() {
+      this.$emit("update:currentTemplate", "drawerTemplate");
+    },
     switchDrawer() {
       this.$emit(
         "update:currentTemplate",
@@ -197,8 +202,13 @@ export default {
     },
 
     gotoBack() {
-      this.$router.go(-1);
+      this.$router.go(0);
     },
+  },
+
+  mounted() {
+    const marker = L.marker([this.lat, this.lon]).addTo(this.map);
+    marker.on("click", this.showReviewDialog);
   },
 
   async mounted() {
@@ -283,8 +293,7 @@ export default {
   bottom: 0;
   left: 0;
 }
-.star{
+.star {
   text-align: center;
- 
 }
 </style>

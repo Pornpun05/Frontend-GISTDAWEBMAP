@@ -1,15 +1,15 @@
 <template>
   <v-app>
     <v-main>
-      <v-container
-        fluid
-        class="d-flex justify-content-center align-center "
-      >
+      <v-container fluid class="d-flex justify-content-center align-center">
         <v-row justify="center">
           <v-col cols="12" sm="8" md="6">
-            <v-card-title class="namemap"
-              >แผนที่แนะนำสถานที่อ่านหนังสือภายในมหาวิทยาลัยสงขลานครินทร์</v-card-title
+            <v-card-title
+              class="namemap"
+              style="font-family: 'Arial', sans-serif"
             >
+              แผนที่แนะนำสถานที่อ่านหนังสือภายในมหาวิทยาลัยสงขลานครินทร์
+            </v-card-title>
             <v-card style="width: max-content">
               <v-img
                 src="https://campus.campus-star.com/app/uploads/2016/10/mhu.jpg"
@@ -23,9 +23,15 @@
             >
               <v-btn class="button" color="#03178c" @click="gotohome">
                 <v-icon style="color: aliceblue">mdi-map-marker</v-icon>
-                <span class="text" style="color: aliceblue; font-size: medium"
-                  >คลิกเพื่อดูแผนที่</span
+                <span
+                  class="text"
+                  style="
+                    color: aliceblue;
+                    font-size: medium;
+                    font-family: 'Arial', sans-serif;"
                 >
+                  คลิกเพื่อดูแผนที่
+                </span>
               </v-btn>
             </v-card>
           </v-col>

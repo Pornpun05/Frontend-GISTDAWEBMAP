@@ -19,7 +19,6 @@
 
 <script>
 import axios from "axios";
-import AppMapVue from "@/components/AppMap.vue";
 
 export default {
   data() {
@@ -33,9 +32,6 @@ export default {
       image: null,
       detail: null,
     };
-  },
-  components: {
-    AppMapVue,
   },
 
   created() {
@@ -86,10 +82,12 @@ export default {
         this.map = new sphere.Map({
           placeholder: document.getElementById("map"),
         });
+       
       } catch (error) {
         console.error("Error initializing the map:", error);
       }
     },
+
     loadMapScript() {
       const script = document.createElement("script");
       script.src =
@@ -108,14 +106,9 @@ export default {
       document.head.appendChild(script);
     },
 
-    navigateToComment() {
-      this.$router.push("/comment");
-    },
-
-    addPin() {
+    async addPin() {
       try {
         const list = this.itemList;
-
         list.forEach((item) => {
           const marker = new sphere.Marker(
             {
@@ -138,7 +131,7 @@ export default {
                             border-radius: 6px;
                             margin-top: 10px;
                             text-align: center; 
-                            font-family: 'YourChosenFont', sans-serif; 
+                            font-family: 'Arial', sans-serif;
                             background-color: #f0f0f0; 
                             padding: 8px; ">${item?.details}</div>
                             `,
@@ -158,7 +151,15 @@ export default {
           );
 
           this.map.Overlays.add(marker);
+          
         });
+        this.map.Event.bind(sphere.EventName.OverlayClick, function (e) {
+          console.log(e);
+          console.log(e._geojson.properties.title.substr(5).split('<')[0])
+          localStorage.setItem('key', e._geojson.properties.title.substr(5).split('<')[0])
+
+        });
+        
       } catch (error) {
         console.error("Error adding pin:", error);
       }
@@ -226,6 +227,15 @@ export default {
         console.error("Error fetching list:", error);
       }
     },
+
+    showReviewDialog() {
+      this.dialog = true;
+    },
+  },
+
+  mounted() {
+    const marker = L.marker([this.lat, this.lon]).addTo(this.map);
+    marker.on("click", this.showReviewDialog);
   },
 };
 </script>
