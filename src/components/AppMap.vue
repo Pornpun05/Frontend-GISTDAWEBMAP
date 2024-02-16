@@ -91,11 +91,12 @@
               >
                 <div>
                   <v-col style="width: max-content">
-                    <v-img
-                      :src="selectedImage"
-                      class="mx-auto rounded-lg"
-                      style="width: 350px; height: 200px"
-                    ></v-img>
+                    <div style="width: 350px; height: 200px">
+                      <v-img
+                        :src="selectedImage"
+                        style="width: 100%; height: 100%; border-radius: 10px"
+                      ></v-img>
+                    </div>
                     <v-card class="nametitle d-flex justify-center">
                       {{ selectedLocation }}
                     </v-card>
@@ -117,12 +118,12 @@
                     v-model="rating"
                     background-color="indigo"
                     color="yellow"
-                    size="25"
+                    size="28"
                     readonly
                     half-increments
                   ></v-rating>
                   <div style="margin-left: 1cm; font-size: 18px">
-                    {{ score }}
+                    {{ rating }}
                   </div>
                 </div>
 
@@ -132,7 +133,8 @@
                 >
                   <v-btn
                     text
-                    class="mr-5 textbutton underline-button"
+                    class="mr-5 textbutton"
+                    :style="{ borderBottom: !dialog ? '2px solid red' : '' }"
                     style="font-size: 16px; height: 10px; margin-left: 0.2cm"
                   >
                     ภาพรวม
@@ -149,8 +151,9 @@
                         v-bind="attrs"
                         v-on="on"
                         text
-                        class="ml-5 textbutton underline-button"
+                        class="mr-5 textbutton"
                         style="font-size: 16px; height: 10px"
+                        :style="{ borderBottom: dialog ? '3px solid red' : '' }"
                       >
                         <v-icon size="15px">mdi-pencil</v-icon>
                         รีวิว
@@ -239,18 +242,24 @@
                 </div>
 
                 <div class="reviewcom d-flex mt-5" style="margin-left: 0.2cm">
-                  <div
-                    v-for="(review, index) in allReviews"
-                    :key="index"
-                    style="font-size: 16px"
-                  >
-                    {{ review.comment }}<br />
+                  <div v-for="(review, index) in allReviews" :key="index">
+                    <span style="font-size: 16px" v-if="allReviews != null">
+                      {{ index + 1 }}. {{ review.comment }}
+                    </span>
+                    <br />
                   </div>
-                </div>
 
+                  <span style="font-size: 16px" v-if="allReviews == ''">
+                    ไม่มีการรีวิว
+                  </span>
+                </div>
                 <div
                   class="d-flex mt-5 flex-column align-items-center justify-content: center;"
-                  style="font-size: 16px; margin-left: 2.5cm"
+                  style="
+                    font-size: 16px;
+                    margin-left: 2.5cm;
+                    margin-bottom: 28px;
+                  "
                 >
                   <v-btn
                     @click="switchDrawer2"
@@ -277,6 +286,7 @@
 
 <script>
 import axios from "axios";
+
 export default {
   data() {
     return {
@@ -308,7 +318,7 @@ export default {
   methods: {
     toggleDrawer() {
       this.$store.state.drawer = !this.$store.state.drawer;
-      console.log(this.$store.state.drawer);
+      // console.log(this.$store.state.drawer);
     },
     switchDrawer() {
       this.currentTemplate =
@@ -362,7 +372,15 @@ export default {
           (sum, review) => sum + review.score,
           0
         );
-        this.rating = this.score / this.allReviews.length;
+        
+        let sumRating = this.score / this.allReviews.length;
+        if(sumRating != 0){
+           this.rating =  parseInt(sumRating)
+        }else{
+         this.rating = 0
+        }
+
+       
       } catch (error) {
         console.error("Error fetching list:", error);
       }
@@ -423,10 +441,29 @@ export default {
         this.details = "";
       }
     },
+    "$store.state.valueMarker": function () {
+      let placeLocation = this.$store.state.placeLocation;
+      let valueMarker = this.$store.state.valueMarker._geojson.properties.title
+        .substr(5)
+        .split("<")[0];
+      placeLocation.forEach((item) => {
+        if (item.location == valueMarker) {
+          this.currentTemplate = "otherTemplate";
+          this.gotoSeletePin(
+            item.id,
+            item.longitude,
+            item.latitude,
+            item.location,
+            item.image,
+            item.details
+          );
+        }
+      });
+    },
   },
   mounted() {
-    const marker = L.marker([this.lat, this.lon]).addTo(this.map);
-    marker.on("click", this.showReviewDialog);
+    // const marker = L.marker([this.lat, this.lon]).addTo(this.map);
+    // marker.on("click", this.showReviewDialog);
   },
   created() {
     this.getListPoint();
@@ -499,8 +536,9 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   margin-top: 5px;
-  max-width: 100%;
+  width: 350px;
   height: 30px;
+  text-wrap: wrap !important;
 }
 
 .custom-rating .v-icon {

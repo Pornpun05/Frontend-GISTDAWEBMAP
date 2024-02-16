@@ -45,8 +45,8 @@ export default {
     const lon = this.$route.query.lon;
     const lat = this.$route.query.lat;
 
-    console.log("Lon:", lon);
-    console.log("Lat:", lat);
+    // console.log("Lon:", lon);
+    // console.log("Lat:", lat);
   },
 
   watch: {
@@ -58,7 +58,6 @@ export default {
         const details = this.$route.query.details;
         const image = to.query.image;
         this.gotoPin(lon, lat, location, image, details);
-        this.gotoMarker(lon, lat);
       }
     },
   },
@@ -82,7 +81,6 @@ export default {
         this.map = new sphere.Map({
           placeholder: document.getElementById("map"),
         });
-       
       } catch (error) {
         console.error("Error initializing the map:", error);
       }
@@ -151,18 +149,23 @@ export default {
           );
 
           this.map.Overlays.add(marker);
-          
         });
-        this.map.Event.bind(sphere.EventName.OverlayClick, function (e) {
-          console.log(e);
-          console.log(e._geojson.properties.title.substr(5).split('<')[0])
-          localStorage.setItem('key', e._geojson.properties.title.substr(5).split('<')[0])
 
+        let self = this;
+        this.map.Event.bind(sphere.EventName.OverlayClick, function (e) {
+          // console.log(e._geojson.properties.title.substr(5).split('<')[0])
+          self.getMarker(e);
         });
-        
       } catch (error) {
         console.error("Error adding pin:", error);
       }
+    },
+
+    getMarker(data) {
+      // console.log(data);
+      // this.$store.state.valueMarker = ""
+      this.$store.state.drawer = true;
+      this.$store.state.valueMarker = data
     },
 
     clearPin() {
@@ -170,11 +173,12 @@ export default {
     },
 
     gotoPin(lon, lat, location, image, details) {
-      console.log("details", details);
+      // console.log("details", details);
       this.map.goTo({
         center: { lon: lon, lat: lat },
         zoom: 18,
       });
+
       var popup1 = new sphere.Popup(
         { lon: lon, lat: lat },
         {
@@ -223,6 +227,7 @@ export default {
             "data:image/jpeg;base64," + this.itemList[i].image;
         }
         console.log("itemList", this.itemList);
+        this.$store.state.placeLocation = this.itemList
       } catch (error) {
         console.error("Error fetching list:", error);
       }
@@ -234,8 +239,7 @@ export default {
   },
 
   mounted() {
-    const marker = L.marker([this.lat, this.lon]).addTo(this.map);
-    marker.on("click", this.showReviewDialog);
+    //--
   },
 };
 </script>

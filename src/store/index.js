@@ -6,8 +6,10 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    place: [],
+    // place: [],
     drawer: false,
+    valueMarker: null,
+    placeLocation: null,
   },
   getters: {},
   mutations: {},
