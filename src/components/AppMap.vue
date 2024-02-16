@@ -27,7 +27,7 @@
         <template v-if="currentTemplate === 'drawerTemplate'">
           <v-row justify="center" class="mx-auto mt-5">
             <v-col>
-              <v-col cols="12" sm="12">
+              <v-col cols="12" sm="12" style="font-weight: bold; font-family: 'Arial', sans-serif;">
                 <v-select
                   :items="items"
                   label="โปรดเลือกสถานที่อ่านหนังสือ"
@@ -105,7 +105,7 @@
 
                 <div
                   class="d-flex mt-5"
-                  style="margin-left: 0.8cm; font-size: 20px"
+                  style="margin-left: 0.8cm; font-size: 18px; font-weight: bold;"
                 >
                   สรุปความคิดเห็น
                 </div>
@@ -118,24 +118,29 @@
                     v-model="rating"
                     background-color="indigo"
                     color="yellow"
-                    size="28"
+                    size="30px"
                     readonly
                     half-increments
                   ></v-rating>
                   <div style="margin-left: 1cm; font-size: 18px">
-                    {{ rating }}
+                    <b>{{ rating }}</b>
                   </div>
                 </div>
 
                 <div
                   style="display: flex; align-items: center"
-                  class="d-flex mt-8"
+                  class="d-flex mt-12"
                 >
                   <v-btn
                     text
                     class="mr-5 textbutton"
                     :style="{ borderBottom: !dialog ? '2px solid red' : '' }"
-                    style="font-size: 16px; height: 10px; margin-left: 0.2cm"
+                    style="
+                      font-size: 16px;
+                      height: 10px;
+                      margin-left: 0.5cm;
+                      background-color: #f0f0f0;
+                    "
                   >
                     ภาพรวม
                   </v-btn>
@@ -152,7 +157,11 @@
                         v-on="on"
                         text
                         class="mr-5 textbutton"
-                        style="font-size: 16px; height: 10px"
+                        style="
+                          font-size: 16px;
+                          height: 10px;
+                          background-color: #f0f0f0;
+                        "
                         :style="{ borderBottom: dialog ? '3px solid red' : '' }"
                       >
                         <v-icon size="15px">mdi-pencil</v-icon>
@@ -170,7 +179,7 @@
                               margin-bottom: 10px;
                             "
                           >
-                            {{ selectedLocation }}
+                           {{ selectedLocation }}
                           </div>
                           <v-btn
                             style="
@@ -233,10 +242,10 @@
                 </div>
                 <br />
                 <div
-                  class="d-flex mt-8"
+                  class="d-flex mt-12"
                   style="margin-left: 0.8cm; margin-top: 20px"
                 >
-                  <div style="font-size: 20px; color: #000000">
+                  <div style="font-size: 18px; color: #000000; font-weight: bold;">
                     รีวิวทั้งหมด
                   </div>
                 </div>
@@ -269,6 +278,7 @@
                       height: 40px;
                       width: 150px;
                       color: aliceblue;
+                      font-weight: bold;
                     "
                     color="#FB8C00"
                   >
@@ -372,15 +382,13 @@ export default {
           (sum, review) => sum + review.score,
           0
         );
-        
-        let sumRating = this.score / this.allReviews.length;
-        if(sumRating != 0){
-           this.rating =  parseInt(sumRating)
-        }else{
-         this.rating = 0
-        }
 
-       
+        let sumRating = this.score / this.allReviews.length;
+        if (sumRating !== 0) {
+          this.rating = parseFloat(sumRating.toFixed(1));
+        } else {
+          this.rating = 0;
+        }
       } catch (error) {
         console.error("Error fetching list:", error);
       }
@@ -528,18 +536,20 @@ export default {
   background-color: #d1d1d1;
 }
 .nametitle {
-  font-size: 16px;
-  justify-content: center;
-  text-align: center;
+  font-size: 16px !important;
+  justify-content: center !important;
+  text-align: center !important;
   color: #000000;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-top: 5px;
+  margin-top: 8px;
   width: 350px;
-  height: 30px;
+  height: 25px;
   text-wrap: wrap !important;
+  font-weight: bold;
 }
+
 
 .custom-rating .v-icon {
   font-size: 30px;
@@ -566,7 +576,6 @@ export default {
   color: #333;
   border-radius: 4px;
   margin-top: 10px;
-  text-align: center;
   font-family: "YourChosenFont", sans-serif;
   background-color: #f0f0f0;
   white-space: pre-wrap;
