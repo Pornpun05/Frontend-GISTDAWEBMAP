@@ -21,15 +21,6 @@ const routes = [
     
   },
 
-
-  {
-    path: "/review",
-    name: "review",
-    component: () => import("../views/ReviewPage.vue"),
-    meta: { useCustomAppBar: false }
-    
-    
-  },
 ]
 
 const router = new VueRouter({

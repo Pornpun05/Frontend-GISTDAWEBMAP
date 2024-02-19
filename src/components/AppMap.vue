@@ -276,7 +276,7 @@
                     style="
                       font-size: 14px;
                       height: 40px;
-                      width: 150px;
+                      width: 160px;
                       color: aliceblue;
                       font-weight: bold;
                     "
@@ -511,7 +511,7 @@ export default {
   align-items: center;
   justify-content: center;
   text-align: center;
-  text-wrap: wrap !important;
+  white-space: pre-wrap;
   transition: background-color 0.3s;
   font-size: 16px;
 }
@@ -546,7 +546,7 @@ export default {
   margin-top: 8px;
   width: 350px;
   height: 25px;
-  text-wrap: wrap !important;
+  white-space: pre-wrap;
   font-weight: bold;
 }
 
@@ -581,7 +581,7 @@ export default {
   white-space: pre-wrap;
   padding: 10px;
   border: 1px solid #ccc;
-  text-wrap: wrap !important;
+  white-space: pre-wrap;
 }
 
 .star {
