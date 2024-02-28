@@ -7,8 +7,10 @@
       text-align: center;
       color: #ffffff;
       padding: 10px;
-      font-family: 'Arial', sans-serif; 
+      font-family: 'Arial', sans-serif;  
+
     "
+    class="athiti-regular "
   >
     MOR AOR GO MORE
   </v-toolbar-title>
@@ -33,4 +35,5 @@ export default {
 .custom-app-bar {
   width: 100%;
 }
+
 </style>

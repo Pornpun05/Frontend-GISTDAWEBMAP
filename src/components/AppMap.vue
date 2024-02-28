@@ -14,8 +14,8 @@
           font-family: 'Arial', sans-serif;
         "
       >
-        MOR AOR GO MORE</v-toolbar-title
-      >
+        MOR AOR GO MORE
+      </v-toolbar-title>
     </v-app-bar>
     <template>
       <v-navigation-drawer
@@ -140,6 +140,8 @@
                       height: 10px;
                       margin-left: 0.5cm;
                       background-color: #f0f0f0;
+                      font-family: Arial;
+                      font-weight: bold;
                     "
                   >
                     ภาพรวม
@@ -161,6 +163,8 @@
                           font-size: 16px;
                           height: 10px;
                           background-color: #f0f0f0;
+                          font-family: Arial;
+                          font-weight: bold;
                         "
                         :style="{ borderBottom: dialog ? '3px solid red' : '' }"
                       >
@@ -197,8 +201,9 @@
                             <v-icon
                               style="font-size: 30px; cursor: pointer"
                               :color="index <= userRating ? 'yellow' : 'grey'"
-                              >mdi-star</v-icon
-                            >
+                              >
+                                mdi-star
+                            </v-icon>
                           </v-btn>
 
                           <v-row>
@@ -266,7 +271,7 @@
                   class="d-flex mt-5 flex-column align-items-center justify-content: center;"
                   style="
                     font-size: 16px;
-                    margin-left: 2.5cm;
+                    margin-left: 2.8cm;
                     margin-bottom: 28px;
                   "
                 >
@@ -296,7 +301,6 @@
 
 <script>
 import axios from "axios";
-
 export default {
   data() {
     return {
@@ -316,7 +320,6 @@ export default {
       localTemplate: "",
       selectedreview: "",
       selectedLocationID: "",
-      title: "",
       allReviews: [],
       details: "",
       commentById: [],
@@ -347,7 +350,7 @@ export default {
       try {
         const response = await axios.get("http://localhost:5000/getlist");
         this.itemList = response.data.data;
-        console.log(" response.data.data", response.data.data);
+        // console.log(" response.data.data", response.data.data);
         const Faculty = [...new Set(this.itemList.map((item) => item.faculty))];
         this.items = Faculty;
         for (let i = 0; i < this.itemList.length; i++) {
@@ -355,7 +358,7 @@ export default {
             "data:image/jpeg;base64," + this.itemList[i].image;
         }
 
-        console.log("itemList", this.itemList);
+        // console.log("itemList", this.itemList);
       } catch (error) {
         console.error("Error fetching list:", error);
       }
@@ -365,7 +368,7 @@ export default {
       try {
         const response = await axios.get("http://localhost:5000/getReview");
         // this.allReviews = response.data;
-        console.log(" response.body", response);
+        // console.log(" response.body", response);
       } catch (error) {
         console.error("Error fetching list:", error);
       }
@@ -377,7 +380,7 @@ export default {
         );
         this.allReviews = response.data;
 
-        console.log(" response.body", response.data);
+        // console.log(" response.body", response.data);
         this.score = this.allReviews.reduce(
           (sum, review) => sum + review.score,
           0
@@ -550,7 +553,6 @@ export default {
   font-weight: bold;
 }
 
-
 .custom-rating .v-icon {
   font-size: 30px;
 }
@@ -564,7 +566,6 @@ export default {
   bottom: 0;
   left: 0;
 }
-
 .reviewcom {
   width: 360px !important;
   height: auto !important;
@@ -583,7 +584,6 @@ export default {
   border: 1px solid #ccc;
   white-space: pre-wrap;
 }
-
 .star {
   text-align: center !important;
 }
