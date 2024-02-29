@@ -8,7 +8,6 @@
       color: #ffffff;
       padding: 10px;
       font-family: 'Arial', sans-serif;  
-
     "
     class="athiti-regular "
   >

@@ -255,7 +255,7 @@
                   </div>
                 </div>
 
-                <div class="reviewcom d-flex mt-5" style="margin-left: 0.2cm">
+                <div class="reviewcom d-flex mt-5" style="margin-left: 0.1cm">
                   <div v-for="(review, index) in allReviews" :key="index">
                     <span style="font-size: 16px" v-if="allReviews != null">
                       {{ index + 1 }}. {{ review.comment }}
@@ -433,11 +433,16 @@ export default {
       const destinationRoute = `/searchpage?lon=${lon}&lat=${lat}&location=${location}&details=${details}`;
 
       if (currentRoute !== destinationRoute) {
-        this.$router
-          .push({
+          try {
+            this.$router.push({
             path: `/searchpage?lon=${lon}&lat=${lat}&location=${location}&details=${details}&image=${encodeImg}`,
           })
-          .catch(() => {});
+          } catch (error) {
+            // console.log('error');
+            this.$router.push({
+            path: `/`,
+          })
+        }
       }
       this.getReviewByid();
     },
@@ -497,7 +502,6 @@ export default {
   justify-content: center;
   align-items: center;
 }
-
 .custom-button:focus,
 .custom-button:active {
   background-color: #ff0000 !important;
@@ -556,7 +560,6 @@ export default {
 .custom-rating .v-icon {
   font-size: 30px;
 }
-
 .underline-button::after {
   content: "";
   position: absolute;
@@ -573,16 +576,14 @@ export default {
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 8px;
   font-size: 14px;
-  line-height: 1.5;
   color: #333;
   border-radius: 4px;
   margin-top: 10px;
-  font-family: "YourChosenFont", sans-serif;
+  font-family: "Arial", sans-serif;
   background-color: #f0f0f0;
-  white-space: pre-wrap;
-  padding: 10px;
+  white-space: pre-wrap !important;
+  padding: 12px;
   border: 1px solid #ccc;
-  white-space: pre-wrap;
 }
 .star {
   text-align: center !important;
